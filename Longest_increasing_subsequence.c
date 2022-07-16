@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:06:34 by dgross            #+#    #+#             */
-/*   Updated: 2022/06/26 17:35:06 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/16 13:24:22 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,76 +14,137 @@
 #include <stdlib.h>
 #include "push_swap.h"
 
-// int	lis_function(int *arr, int n, int *max_ref)
-// {
-// 	int	res;
-// 	int	max_ending_here;
-// 	int	i;
-
-// 	i = 1;
-// 	max_ending_here = 1;
-// 	if (n == 1)
-// 		return (1);
-// 	while (i < n)
-// 	{
-// 		res = lis_function(arr, i, max_ref);
-// 		if (arr[i - 1] < arr[n - 1] && res + 1 > max_ending_here)
-// 			max_ending_here = res + 1;
-// 		i++;
-// 	}
-// 	if (*max_ref < max_ending_here)
-// 		*max_ref = max_ending_here;
-// 	return (max_ending_here);
-// }
-
-// int	ft_lis(int *arr, int n)
-// {
-// 	int	max;
-
-// 	max = 1;
-// 	lis_function(arr, n, &max);
-// 	return (max);
-// }
-
-int lis_function(t_stack stack, t_pslist *last, int *ls)
+void	lis_function(t_stack *stack)
 {
-	int result;
-	int max_end;
 	t_pslist	*tmp;
+	int count;
+	int **twd_list;
+	int i;
+	int	b;
 
-	tmp = stack.a;
-	max_end = 1;
-	if (last == tmp)
-		return (1);
-	while ()
+	stack->lis = 0;
+	count = 0;
+	i = 0;
+	b = 0;
+	twd_list = malloc_lis(stack);
+	tmp = stack->a;
+	twd_list[0][0] = tmp->data;
+	while(1)
 	{
-		result = lis_function(stack, tmp, ls);
-		if (tmp->data < last->data && result + 1 > max_end)
-			max_end = result + 1;
+		if (tmp->data <= twd_list[0][0])
+			twd_list[0][0] = tmp->data;
+		else if (tmp->data > twd_list[count][count])
+			count = ft_add_row(twd_list, count, tmp);
+		else
+			ft_discard_row(tmp, twd_list, count);
+		if (tmp->next == NULL)
+			break ;
 		tmp = tmp->next;
-		last = last->prev;
 	}
-	if (*ls < max_end)
-		*ls = max_end;
-	return (max_end);
+	stack->len_lis = count;
+	stack->lis = ft_int_strdup(twd_list[count], count + 1);
+	free_twd_list(twd_list, stack->len_a);
 }
 
-int ft_lis(t_stack stack)
+int	**malloc_lis(t_stack *stack)
 {
-	t_pslist *last;
-	int ls;
+	int		i;
+	int		**twd_list;
 
-	ls = 1;
-	last = ft_listlast(stack.a);
-	lis_function(stack, last, &ls);
-	return (ls);
+	i = 0;
+	stack->len_a = ft_listsize(stack->a);
+	twd_list = malloc(sizeof(int **) * stack->len_a);
+	if (!twd_list)
+		ft_error(0);
+	while (i < stack->len_a)
+	{
+		twd_list[i] = malloc(sizeof(int *) * (i + 1));
+		if(!twd_list[i])
+		{
+			free_twd_list(twd_list, i);
+			ft_error(0);
+		}
+		i++;
+	}
+	return(twd_list);
 }
 
-t_pslist	*ft_listlast(t_pslist *lst)
+int	ft_add_row(int **twd_list, int count, t_pslist *tmp)
 {
-	if (lst == NULL)
-		return (lst);
-	while (lst->next != NULL)
-		lst = lst->next;
-	return (lst);
+	int new_row;
+	int collum;
+
+	new_row = count + 1;
+	collum = count;
+	twd_list[new_row][collum + 1] = tmp->data;
+	while (collum >= 0)
+	{
+		twd_list[new_row][collum] = twd_list[count][collum];
+		collum--;
+	}
+	count++;
+	return (count);
+}
+
+void ft_discard_row(t_pslist *tmp, int **twd_list, int count)
+{
+	int last_index;
+	int discard;
+	int collum;
+
+	last_index = count;
+	while(last_index >= 0)
+	{
+		if(tmp->data > twd_list[last_index][last_index])
+		{
+			discard = last_index + 1;
+			collum = last_index;
+			twd_list[discard][collum + 1] = tmp->data;
+			while (collum >= 0)
+			{
+				twd_list[discard][collum] = twd_list[last_index][collum];
+				collum--;
+			}
+			break ;
+		}
+		last_index--;
+	}
+}
+
+void	free_twd_list(int **twd_list, int i)
+{
+	while (i > 0)
+	{
+		free(twd_list[i - 1]);
+		twd_list[i - 1] = NULL;
+		i--;
+	}
+	free(twd_list);
+	twd_list = NULL;
+}
+
+int	*ft_int_strdup(const int *s, int len)
+{
+	int	*dup;
+
+	dup = (int *)malloc(sizeof(*dup) * len);
+	if (!dup)
+		return (0);
+	ft_int_memcpy(dup, s, len);
+	return (dup);
+}
+
+void	*ft_int_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t	i;
+
+	if (!dst && !src)
+		return (0);
+	i = 0;
+	while (i < n && (dst || src))
+	{
+		*((unsigned int *)dst + i) = *((unsigned int *)src + i);
+		i++;
+	}
+	return (dst);
 }

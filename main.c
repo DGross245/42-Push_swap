@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 14:05:13 by dgross            #+#    #+#             */
-/*   Updated: 2022/06/26 17:04:47 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/16 13:59:52 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-t_pslist	*ft_newlist(int number)
+t_pslist	*ft_newlist(int number, int position)
 {
 	t_pslist	*node;
 
@@ -27,8 +27,47 @@ t_pslist	*ft_newlist(int number)
 	if (node == NULL)
 		return (NULL);
 	node->data = number;
+	node->posn = position;
 	node->next = NULL;
 	return (node);
+}
+
+t_pslist	*ft_lastnode(t_pslist *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next != NULL)
+	{
+		lst = lst->next;
+	}
+	return (lst);
+}
+
+void	ft_list_rem(t_pslist **lst, char *str)
+{
+	t_pslist	*tmp;
+	
+	tmp = NULL;
+	if (ft_strncmp(str, "front", ft_strlen(str)) == 0)
+	{
+		if (lst != NULL && *lst != NULL)
+		{
+			*lst = (*lst)->next;
+			if (*lst != NULL)
+				(*lst)->prev = NULL;
+			free(tmp);
+		}
+	}
+	else
+	{
+		if (lst != NULL && *lst != NULL)
+		{
+			tmp = ft_lastnode(*lst);
+			free(ft_lastnode(*lst));
+			tmp = tmp->prev;
+			tmp->next = NULL;
+		}
+	}
 }
 
 void	ft_add_to_front(t_pslist **lst, t_pslist *new_lst)
@@ -50,6 +89,24 @@ void	ft_add_to_front(t_pslist **lst, t_pslist *new_lst)
 	}
 }
 
+void	ft_add_to_back(t_pslist **lst, t_pslist *new_lst)
+{
+	t_pslist	*tmp;
+
+	tmp = NULL;
+	if (*lst != NULL)
+	{
+		tmp = ft_lastnode(*lst);
+		new_lst->prev = tmp;
+		tmp->next = new_lst;
+	}
+	else
+	{
+		*lst = new_lst;
+		new_lst->prev = NULL;
+	}
+}
+
 void	ft_del_lst(t_pslist **lst)
 {
 	t_pslist *tmp;
@@ -62,7 +119,7 @@ void	ft_del_lst(t_pslist **lst)
 	}
 }
 
-void ft_putlist(int argc, char **argv, t_stack stack)
+void ft_putlist(int argc, char **argv, t_stack *stack)
 {
 	int i;
 	char **string;
@@ -73,12 +130,13 @@ void ft_putlist(int argc, char **argv, t_stack stack)
 		string = ft_split(argv[argc], ' ');
 		i = ft_split_len(string);
 		while (i > -1)
-			ft_add_to_front(&stack.a, ft_newlist(ft_atoi(string[i--])));
+			ft_add_to_front(&stack->a, ft_newlist(ft_atoi(string[i--]), 0));
 		argc--;
 	}
-	ft_find_dup(stack.a);
+	ft_find_dup(stack->a);
+	print_list(stack);
 	ft_sort(stack);
-	print_list(&stack.a, &stack.b);
+	print_list(stack);
 }
 
 void ft_push_swap(int argc, char **argv)
@@ -90,7 +148,7 @@ void ft_push_swap(int argc, char **argv)
 	if (argc == 0)
 		ft_error(1);
 	ft_number_check(argc, argv);
-	ft_putlist(argc, argv, stack);
+	ft_putlist(argc, argv, &stack);
 }
 
 void ft_number_check(int argc, char **argv)
@@ -108,13 +166,16 @@ void ft_number_check(int argc, char **argv)
 		while (string[i]!= NULL)
 		{
 			j = 0;
+			if (string[i][j] == '-' || string[i][j] == '+')
+			{
+				j++;
+				if (!ft_isdigit(string[i][j++]))
+					ft_error(0);
+			}
 			while(string[i][j] != '\0')
 			{
-				if (string[i][j++] == '-')
-				{
-					if (!ft_isdigit(string[i][j++]))
-						ft_error(0);
-				}
+				if (!ft_isdigit(string[i][j++]))
+					ft_error(0);
 			}
 			i++;
 		}
@@ -174,49 +235,16 @@ int	ft_listsize(t_pslist *lst)
 	return (i);
 }
 
-// int ft_find_high(int *array, int size)
-// {
-// 	int	i;
-// 	int num;
-
-// 	i = 0;
-// 	num = array[i];
-// 	while(i < size)
-// 	{
-// 		if(array[i] > num)
-// 			num = array[i];
-// 		i++; 
-// 	}
-// 	return (num);
-	
-// }
-
-// int ft_find_low(int *array, int size)
-// {
-// 	int	i;
-// 	int num;
-
-// 	i = 0;
-// 	num = array[i];
-// 	while(i < size)
-// 	{
-// 		if(array[i] < num)
-// 			num = array[i];
-// 		i++;
-// 	}
-// 	return (num);
-// }
-
-int *ft_init_array(t_stack stack)
+int *ft_init_array(t_stack *stack)
 {
 	int *array;
 	int	i;
 	t_pslist *tmp;
 	int size;
 
-	tmp = stack.a;
+	tmp = stack->a;
 	i = 0;
-	size = ft_listsize(stack.a);
+	size = ft_listsize(stack->a);
 	array = malloc(size);
 	while(tmp != NULL)
 	{
@@ -224,30 +252,19 @@ int *ft_init_array(t_stack stack)
 		tmp	= tmp->next;
 		i++;
 	}
-	// print_array(array, size);
 	return (array);
 }
 
-// void	print_array(int *array, int size)
-// {
-//     printf("Elements of given array: \n");    
-//     for (int i = 0; i < size; i++) {     
-//         printf("%d ", array[i]);     
-//     }      
-// }
-
-void	ft_sort(t_stack stack)
+void	ft_sort(t_stack *stack)
 {
 	int *array;
 	int size;
-	int max;
 
 	array = ft_init_array(stack);
-	size = ft_listsize(stack.a);
-	max = ft_lis(stack);
-	printf("--{%d}--", max);
+	size = ft_listsize(stack->a);
 	ft_pre_sort(array, size, stack);
-
+	lis_function(stack);
+	ft_sort_stack(stack);
 }
 
 int	ft_position(int *array, int num, int size)
@@ -263,35 +280,51 @@ int	ft_position(int *array, int num, int size)
 	}
 	return(-1);
 }
-void	print_list(t_pslist **list_a, t_pslist **list_b)
+void	print_list(t_stack *stack)
 {
 	int	i;
+	t_pslist	*tmp;
+	t_pslist	*tmp2;
 
+	tmp = stack->a;
+	tmp2 = stack->b;
 	i = 0;
 	ft_printf("INDEX\t\tA\tposn-A\t\tB\tposn-B\n");
-	while (*list_a != NULL)
+	while (tmp != NULL)
 	{
 		ft_printf("%d\t\t", i);
-		if (*list_a != NULL)
+		if (tmp != NULL)
 		{
-			ft_printf("%d\t%d\t\t", (*list_a)->data, (*list_a)->posn);
-			*list_a = (*list_a)->next;
+			ft_printf("%d\t%d\t\t", tmp->data, tmp->posn);
+			tmp = tmp->next;
 		}
-		if (*list_b != NULL)
+		if (tmp2 != NULL)
 		{
-			ft_printf("%d\t%d", (*list_b)->data, (*list_b)->posn);
-			*list_b = (*list_b)->next;
+			ft_printf("%d\t%d\t", tmp2->data, tmp2->posn);
+			tmp2 = tmp2->next;
 		}
 		write(1, "\n", 1);
 		i++;
 	}
-	while (*list_b != NULL)
+	while (tmp2 != NULL)
 	{
-		ft_printf("%d \t\t \t \t\t%d\t%d\n", i, (*list_b)->data,
-			(*list_b)->posn);
+		ft_printf("%d \t\t \t \t\t%d\t%d\t\n", i, tmp2->data,
+			tmp2->posn);
 		i++;
-		*list_b = (*list_b)->next;
+		tmp2 = tmp2->next;
 	}
+}
+
+int	ft_issorted(t_stack *stack)
+{
+	t_pslist	*tmp;
+	
+	tmp = stack->a;
+	while (tmp != NULL && tmp->next != NULL && tmp->data < tmp->next->data)
+		tmp = tmp->next;
+	if (tmp != NULL && tmp->next == NULL && stack->b == NULL)
+		return (1);
+	return (0);
 }
 
 int	main(int argc, char **argv)

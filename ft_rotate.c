@@ -6,32 +6,41 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 13:11:11 by dgross            #+#    #+#             */
-/*   Updated: 2022/06/24 14:48:45 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/14 11:49:42 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_rotate_a(t_pslist *a, t_pslist *b)
+#include "push_swap.h"
+#include <stddef.h>
+
+void	ft_rotate_a(t_pslist **list)
 {
-	if	(b == NULL || *b == NULL)
-	{
-		
-	}
+	t_pslist	*tmp;
+
 	ft_printf("ra\n");
+	if (list != NULL && *list != NULL && (*list)->next != NULL)
+	{
+		tmp = *list;
+		ft_add_to_back(list, ft_newlist(tmp->data, tmp->posn));
+		ft_list_rem(list, "front");
+	}
 }
 
-void	ft_rotate_b(t_pslist *a, t_pslist *b)
+void	ft_rotate_b(t_pslist **list)
 {
-	if (a == NULL || *a == NULL)
+	t_pslist	*tmp;
+
+	ft_printf("rb\n");
+	if (list != NULL && *list != NULL && (*list)->next != NULL)
 	{
-		
+		tmp = *list;
+		ft_add_to_back(list, ft_newlist(tmp->data, tmp->posn));
+		ft_list_rem(list, "front");
 	}
-	ft_printf("ra\n");
 }
 
-
-void	ft_rotate_both(t_pslist *a, t_pslist *b)
+void	rotate_both(t_pslist **a, t_pslist **b)
 {
-	ft_rotate_a();
-	ft_rotate_b();
-	ft_printf("rr\n");
+	ft_rotate_a(a);
+	ft_rotate_b(b);
 }

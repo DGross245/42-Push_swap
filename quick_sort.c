@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 19:48:32 by dgross            #+#    #+#             */
-/*   Updated: 2022/06/26 14:08:27 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/08 16:43:45 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,24 +56,11 @@ void ft_quicksort(int *array, int low, int high)
 	}
 }
 
-void printArray(int *array, int size)
-{
-	int	i;
-
-	i = 0;
-	while (i < size)
-	{
-		printf("%d  ", array[i]);
-		i++;
-	}
-	printf("\n");
-}
-
-void	ft_put_posn(int *array, t_stack stack, int size)
+void	ft_put_posn(int *array, t_stack *stack, int size)
 {
 	t_pslist *tmp;
 
-	tmp = stack.a;
+	tmp = stack->a;
 	while (tmp != NULL)
 	{
 		tmp->posn = ft_position(array, tmp->data, size);
@@ -81,13 +68,9 @@ void	ft_put_posn(int *array, t_stack stack, int size)
 	}
 }
 
-int ft_pre_sort(int *array, int n, t_stack stack)
+int ft_pre_sort(int *array, int n, t_stack *stack)
 {
-	// printf("Unsorted Array\n");
-	// printArray(array, n);
 	ft_quicksort(array, 0, n - 1);
 	ft_put_posn(array, stack, n);
-	// printf("Sorted array in ascending order: \n");
-	// printArray(array, n);
 	return (0);
 }
