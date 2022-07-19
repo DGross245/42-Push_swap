@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 19:48:32 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/08 16:43:45 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/19 13:01:24 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,20 @@
 #include "push_swap.h"
 #include <stdio.h>
 
-void ft_swap(int *a, int *b)
+void	ft_swap(int *a, int *b)
 {
-  int t = *a;
-  *a = *b;
-  *b = t;
+	int	t;
+
+	t = *a;
+	*a = *b;
+	*b = t;
 }
 
-int ft_partition(int *array, int low, int high)
+int	ft_partition(int *array, int low, int high)
 {
 	int	pivot;
 	int	i;
-	int j;
+	int	j;
 
 	j = low;
 	pivot = array[high];
@@ -43,9 +45,9 @@ int ft_partition(int *array, int low, int high)
 	return (i + 1);
 }
 
-void ft_quicksort(int *array, int low, int high)
+void	ft_quicksort(int *array, int low, int high)
 {
-	int pi;
+	int	pi;
 
 	pi = 0;
 	if (low < high)
@@ -58,7 +60,7 @@ void ft_quicksort(int *array, int low, int high)
 
 void	ft_put_posn(int *array, t_stack *stack, int size)
 {
-	t_pslist *tmp;
+	t_pslist	*tmp;
 
 	tmp = stack->a;
 	while (tmp != NULL)
@@ -68,7 +70,7 @@ void	ft_put_posn(int *array, t_stack *stack, int size)
 	}
 }
 
-int ft_pre_sort(int *array, int n, t_stack *stack)
+int	ft_pre_sort(int *array, int n, t_stack *stack)
 {
 	ft_quicksort(array, 0, n - 1);
 	ft_put_posn(array, stack, n);

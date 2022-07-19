@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   lis_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/23 12:17:24 by dgross            #+#    #+#             */
-/*   Updated: 2022/05/01 19:26:10 by dgross           ###   ########.fr       */
+/*   Created: 2022/07/19 16:00:18 by dgross            #+#    #+#             */
+/*   Updated: 2022/07/19 16:01:55 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "push_swap.h"
+#include <stdlib.h>
 
-#include <stddef.h> // size_t
+int	*ft_int_strdup(const int *s, int len)
+{
+	int	*dup;
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+	dup = (int *)malloc(sizeof(*dup) * len);
+	if (!dup)
+		return (0);
+	ft_int_memcpy(dup, s, len);
+	return (dup);
+}
+
+void	*ft_int_memcpy(void *dst, const void *src, size_t n)
 {
 	size_t	i;
 
-	i = 0;
-	if (n == 0)
+	if (!dst && !src)
 		return (0);
-	while (s1[i] == s2[i] && i <= n - 1)
+	i = 0;
+	while (i < n && (dst || src))
 	{
+		*((unsigned int *)dst + i) = *((unsigned int *)src + i);
 		i++;
-		if (s1[i] == '\0' && s2[i] == '\0')
-			return (s1[i] - s2[i]);
 	}
-	if (s1[i] != s2[i] && i <= n - 1)
-	{
-		return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-	}
-	return (0);
+	return (dst);
 }

@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/16 12:56:07 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/16 17:16:52 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/19 16:03:20 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	ft_swap_a(t_pslist **lst)
 	int	tmp2;
 	int	tmp_posn;
 	int	tmp2_posn;
-	
 
 	ft_printf("sa\n");
 	if (lst != NULL && *lst != NULL && (*lst)->next != NULL)
@@ -40,9 +39,8 @@ void	ft_swap_b(t_pslist **lst)
 	int	tmp2;
 	int	tmp_posn;
 	int	tmp2_posn;
-	
 
-	ft_printf("sa\n");
+	ft_printf("sb\n");
 	if (lst != NULL && *lst != NULL && (*lst)->next != NULL)
 	{
 		tmp = (*lst)->data;

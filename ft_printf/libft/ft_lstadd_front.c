@@ -6,14 +6,14 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 12:49:00 by dgross            #+#    #+#             */
-/*   Updated: 2022/04/19 16:00:54 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/19 15:51:29 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+void	ft_lstadd_front(t_list **lst, t_list *node)
 {
 	new->next = *lst;
-	*lst = new;
+	*lst = node;
 }

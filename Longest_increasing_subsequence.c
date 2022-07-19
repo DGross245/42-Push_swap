@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/24 15:06:34 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/16 13:24:22 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/19 16:03:33 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,15 @@
 void	lis_function(t_stack *stack)
 {
 	t_pslist	*tmp;
-	int count;
-	int **twd_list;
-	int i;
-	int	b;
+	int			count;
+	int			**twd_list;
 
 	stack->lis = 0;
 	count = 0;
-	i = 0;
-	b = 0;
 	twd_list = malloc_lis(stack);
 	tmp = stack->a;
 	twd_list[0][0] = tmp->data;
-	while(1)
+	while (1)
 	{
 		if (tmp->data <= twd_list[0][0])
 			twd_list[0][0] = tmp->data;
@@ -59,20 +55,20 @@ int	**malloc_lis(t_stack *stack)
 	while (i < stack->len_a)
 	{
 		twd_list[i] = malloc(sizeof(int *) * (i + 1));
-		if(!twd_list[i])
+		if (!twd_list[i])
 		{
 			free_twd_list(twd_list, i);
 			ft_error(0);
 		}
 		i++;
 	}
-	return(twd_list);
+	return (twd_list);
 }
 
 int	ft_add_row(int **twd_list, int count, t_pslist *tmp)
 {
-	int new_row;
-	int collum;
+	int	new_row;
+	int	collum;
 
 	new_row = count + 1;
 	collum = count;
@@ -86,16 +82,16 @@ int	ft_add_row(int **twd_list, int count, t_pslist *tmp)
 	return (count);
 }
 
-void ft_discard_row(t_pslist *tmp, int **twd_list, int count)
+void	ft_discard_row(t_pslist *tmp, int **twd_list, int count)
 {
-	int last_index;
-	int discard;
-	int collum;
+	int		last_index;
+	int		discard;
+	int		collum;
 
 	last_index = count;
-	while(last_index >= 0)
+	while (last_index >= 0)
 	{
-		if(tmp->data > twd_list[last_index][last_index])
+		if (tmp->data > twd_list[last_index][last_index])
 		{
 			discard = last_index + 1;
 			collum = last_index;
@@ -121,30 +117,4 @@ void	free_twd_list(int **twd_list, int i)
 	}
 	free(twd_list);
 	twd_list = NULL;
-}
-
-int	*ft_int_strdup(const int *s, int len)
-{
-	int	*dup;
-
-	dup = (int *)malloc(sizeof(*dup) * len);
-	if (!dup)
-		return (0);
-	ft_int_memcpy(dup, s, len);
-	return (dup);
-}
-
-void	*ft_int_memcpy(void *dst, const void *src, size_t n)
-{
-	size_t	i;
-
-	if (!dst && !src)
-		return (0);
-	i = 0;
-	while (i < n && (dst || src))
-	{
-		*((unsigned int *)dst + i) = *((unsigned int *)src + i);
-		i++;
-	}
-	return (dst);
 }
