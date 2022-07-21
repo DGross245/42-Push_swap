@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 14:05:13 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/19 16:04:28 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/21 18:10:44 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,24 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <stdbool.h>
 
 void	ft_putlist(int argc, char **argv, t_stack *stack)
 {
 	int		i;
-	char	**string;
+	char	**str;
 
 	i = 0;
 	while (argc > 0)
 	{
-		string = ft_split(argv[argc], ' ');
-		i = ft_split_len(string);
+		str = ft_split(argv[argc], ' ');
+		i = ft_split_len(str);
 		while (i > -1)
-			ft_add_to_front(&stack->a, ft_newlist(ft_atoi(string[i--]), 0));
+			ft_add_to_front(&stack->a, ft_newlist(ft_atoi_check(str[i--]), 0));
 		argc--;
 	}
-	ft_find_dup(stack->a);
-	ft_sort(stack);
+	if (ft_issorted(stack) == 1)
+		exit(0);
 }
 
 void	ft_number_check(int argc, char **argv)
@@ -51,10 +52,10 @@ void	ft_number_check(int argc, char **argv)
 		while (string[i] != NULL)
 		{
 			j = 0;
+			if (string[i][j] == '-' || string[i][j] == '+')
+				j++;
 			while (string[i][j] != '\0')
 			{
-				if (string[i][j] == '-' || string[i][j] == '+')
-					j++;
 				if (!ft_isdigit(string[i][j++]))
 					ft_error(0);
 			}
@@ -103,41 +104,41 @@ int	*ft_init_array(t_stack *stack)
 	return (array);
 }
 
-// //----------------------------PRINT---------------------------
-// void	print_list(t_stack *stack)
-// {
-// 	int	i;
-// 	t_pslist	*tmp;
-// 	t_pslist	*tmp2;
+////----------------------------PRINT---------------------------
+//void	print_list(t_stack *stack)
+//{
+//	int	i;
+//	t_pslist	*tmp;
+//	t_pslist	*tmp2;
 
-// 	tmp = stack->a;
-// 	tmp2 = stack->b;
-// 	i = 0;
-// 	ft_printf("INDEX\t\tA\tposn-A\t\tB\tposn-B\n");
-// 	while (tmp != NULL)
-// 	{
-// 		ft_printf("%d\t\t", i);
-// 		if (tmp != NULL)
-// 		{
-// 			ft_printf("%d\t%d\t\t", tmp->data, tmp->posn);
-// 			tmp = tmp->next;
-// 		}
-// 		if (tmp2 != NULL)
-// 		{
-// 			ft_printf("%d\t%d\t", tmp2->data, tmp2->posn);
-// 			tmp2 = tmp2->next;
-// 		}
-// 		write(1, "\n", 1);
-// 		i++;
-// 	}
-// 	while (tmp2 != NULL)
-// 	{
-// 		ft_printf("%d \t\t \t \t\t%d\t%d\t\n", i, tmp2->data,
-// 			tmp2->posn);
-// 		i++;
-// 		tmp2 = tmp2->next;
-// 	}
-// }
+//	tmp = stack->a;
+//	tmp2 = stack->b;
+//	i = 0;
+//	ft_printf("INDEX\t\tA\tposn-A\t\tB\tposn-B\n");
+//	while (tmp != NULL)
+//	{
+//		ft_printf("%d\t\t", i);
+//		if (tmp != NULL)
+//		{
+//			ft_printf("%d\t%d\t\t", tmp->data, tmp->posn);
+//			tmp = tmp->next;
+//		}
+//		if (tmp2 != NULL)
+//		{
+//			ft_printf("%d\t%d\t", tmp2->data, tmp2->posn);
+//			tmp2 = tmp2->next;
+//		}
+//		write(1, "\n", 1);
+//		i++;
+//	}
+//	while (tmp2 != NULL)
+//	{
+//		ft_printf("%d \t\t \t \t\t%d\t%d\t\n", i, tmp2->data,
+//			tmp2->posn);
+//		i++;
+//		tmp2 = tmp2->next;
+//	}
+//}
 
 int	main(int argc, char **argv)
 {
@@ -146,8 +147,11 @@ int	main(int argc, char **argv)
 	stack.a = NULL;
 	stack.b = NULL;
 	if (argc - 1 == 0)
-		ft_error(1);
+		exit(0);
 	ft_number_check(argc - 1, argv);
 	ft_putlist(argc - 1, argv, &stack);
+	ft_find_dup(stack.a);
+	ft_sort(&stack);
+	print_list(&stack);
 	return (0);
 }

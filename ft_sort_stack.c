@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:45:01 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/19 13:01:53 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/21 18:00:48 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,18 @@ void	ft_sort(t_stack *stack)
 	array = ft_init_array(stack);
 	size = ft_listsize(stack->a);
 	ft_pre_sort(array, size, stack);
-	lis_function(stack);
-	ft_push_unsorted(stack);
+	if (size > 5)
+	{
+		lis_function(stack);
+		ft_push_unsorted(stack);
+	}
+	else
+	{
+		if (size <= 3)
+			sort_three(stack);
+		else if (size <= 5)
+			sort_five(stack);
+	}
 }
 
 void	ft_push_unsorted(t_stack *stack)
@@ -70,29 +80,7 @@ int	ft_issorted(t_stack *stack)
 	tmp = stack->a;
 	while (tmp != NULL && tmp->next != NULL && tmp->data < tmp->next->data)
 		tmp = tmp->next;
-	if (tmp != NULL && tmp->next == NULL && stack->b == NULL)
+	if (tmp != NULL && tmp->next == NULL)
 		return (1);
 	return (0);
 }
-
-// void	my_sort(t_stack	*stack)
-// {
-// 	ft_min_max(stack);
-// }
-
-// void	ft_min_max(t_stack *stack)
-// {
-// 	t_pslist	*curr_p;
-
-// 	curr_p = stack->a;
-// 	stack->min = 0;
-// 	stack->max = 0;
-// 	while (curr_p->next != NULL)
-// 	{
-// 		if (curr_p->posn > stack->max)
-// 			stack->max = curr_p->posn;
-// 		if (curr_p->posn < stack->min)
-// 			stack->min = curr_p->posn;
-// 		curr_p = curr_p->next;
-// 	}
-// }
