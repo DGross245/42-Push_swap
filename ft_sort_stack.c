@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:45:01 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/21 18:00:48 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/28 17:00:19 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,11 @@ void	ft_sort(t_stack *stack)
 	{
 		lis_function(stack);
 		ft_push_unsorted(stack);
+		ft_push_back(stack);
+		ft_finish(stack, ft_listsize(stack->a));
 	}
 	else
-	{
-		if (size <= 3)
-			sort_three(stack);
-		else if (size <= 5)
-			sort_five(stack);
-	}
+		sort_small(stack);
 }
 
 void	ft_push_unsorted(t_stack *stack)
@@ -83,4 +80,26 @@ int	ft_issorted(t_stack *stack)
 	if (tmp != NULL && tmp->next == NULL)
 		return (1);
 	return (0);
+}
+
+void	ft_push_back(t_stack	*stack)
+{
+	int	i;
+
+	i = 0;
+	stack->len_a = ft_listsize(stack->a);
+	stack->len_b = ft_listsize(stack->b);
+	while (stack->b != NULL)
+	{
+		i = ft_best_nbr_b(stack);
+		if (i < 0)
+			while (i++ < 0)
+				ft_rev_rotate_b(&stack->b);
+		else if (i > 0)
+			while (i-- > 0)
+				ft_rotate_b(&stack->b);
+		ft_push_a(&stack->a, &stack->b);
+		stack->len_a++;
+		stack->len_b--;
+	}
 }

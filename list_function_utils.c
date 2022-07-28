@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:58:05 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/21 13:41:06 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/22 16:06:15 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,6 @@ void	ft_del_lst(t_pslist **lst)
 	}
 }
 
-t_pslist	*ft_lastnode(t_pslist *lst)
-{
-	if (lst == NULL)
-		return (NULL);
-	while (lst->next != NULL)
-	{
-		lst = lst->next;
-	}
-	return (lst);
-}
-
-t_pslist	*ft_newlist(int number, int position)
-{
-	t_pslist	*node;
-
-	node = malloc(sizeof(t_pslist));
-	if (node == NULL)
-		return (NULL);
-	node->data = number;
-	node->posn = position;
-	node->next = NULL;
-	return (node);
-}
-
 int	ft_listsize(t_pslist *lst)
 {
 	int	i;
@@ -61,4 +37,30 @@ int	ft_listsize(t_pslist *lst)
 		lst = lst->next;
 	}
 	return (i);
+}
+
+int	*ft_int_strdup(const int *s, int len)
+{
+	int	*dup;
+
+	dup = (int *)malloc(sizeof(*dup) * len);
+	if (!dup)
+		return (0);
+	ft_int_memcpy(dup, s, len);
+	return (dup);
+}
+
+void	*ft_int_memcpy(void *dst, const void *src, size_t n)
+{
+	size_t	i;
+
+	if (!dst && !src)
+		return (0);
+	i = 0;
+	while (i < n && (dst || src))
+	{
+		*((unsigned int *)dst + i) = *((unsigned int *)src + i);
+		i++;
+	}
+	return (dst);
 }

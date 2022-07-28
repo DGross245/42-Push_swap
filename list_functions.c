@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:56:24 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/19 13:43:31 by dgross           ###   ########.fr       */
+/*   Updated: 2022/07/27 19:09:52 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 #include <stdlib.h>
 #include "ft_printf/libft/libft.h"
 
-void	ft_list_rem(t_pslist **lst, char *str)
+void	ft_list_rem(t_pslist **lst, int i)
 {
 	t_pslist	*tmp;
 
 	tmp = NULL;
-	if (ft_strncmp(str, "front", ft_strlen(str)) == 0)
+	if (i == 1)
 	{
 		if (lst != NULL && *lst != NULL)
 		{
@@ -76,4 +76,26 @@ void	ft_add_to_back(t_pslist **lst, t_pslist *new_lst)
 		*lst = new_lst;
 		new_lst->prev = NULL;
 	}
+}
+
+t_pslist	*ft_lastnode(t_pslist *lst)
+{
+	if (lst == NULL)
+		return (NULL);
+	while (lst->next != NULL)
+		lst = lst->next;
+	return (lst);
+}
+
+t_pslist	*ft_newlist(int number, int position)
+{
+	t_pslist	*node;
+
+	node = malloc(sizeof(t_pslist));
+	if (node == NULL)
+		return (NULL);
+	node->data = number;
+	node->posn = position;
+	node->next = NULL;
+	return (node);
 }

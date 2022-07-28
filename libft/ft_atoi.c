@@ -1,51 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helper_functions.c                                 :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 12:53:29 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/27 15:07:32 by dgross           ###   ########.fr       */
+/*   Created: 2022/03/23 12:16:20 by dgross            #+#    #+#             */
+/*   Updated: 2022/04/14 18:37:15 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include <stdlib.h>
-#include <unistd.h>
+#include "libft.h"
 
-int	ft_split_len(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] != NULL)
-		i++;
-	return (i - 1);
-}
-
-int	ft_error(int i)
-{
-	if (i == 0)
-		write(2, "Error\n", 6);
-	exit(0);
-}
-
-int	ft_isnumber(const char *str, int i, int sign, long int result1)
+static int	isnumber(const char *str, int i, int sign, long int result1)
 {
 	while (str[i] >= '0' && str[i] <= '9')
 	{
+		if (result1 * sign > 2147483647)
+			return (-1);
+		if (result1 * sign < -2147483648)
+			return (0);
 		result1 = 10 * result1 + (str[i] - '0');
 		i++;
 	}
-	if (result1 * sign > 2147483647)
-		ft_error(0);
-	if (result1 * sign < -2147483648)
-		ft_error(0);
 	return (result1);
 }
 
-int	ft_atoi_check(const char	*str)
+int	ft_atoi(const char	*str)
 {
 	int			i;
 	int			sign;
@@ -65,12 +46,6 @@ int	ft_atoi_check(const char	*str)
 			sign = sign * -1;
 		i++;
 	}
-	result = ft_isnumber(str, i, sign, result) * sign;
+	result = isnumber(str, i, sign, result) * sign;
 	return (result);
-}
-
-void	ft_not_null(char string)
-{
-	if (string == '\0')
-		ft_error(0);
 }

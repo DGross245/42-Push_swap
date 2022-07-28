@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_push.c                                          :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 09:41:11 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/26 19:14:59 by dgross           ###   ########.fr       */
+/*   Created: 2022/04/19 15:49:40 by dgross            #+#    #+#             */
+/*   Updated: 2022/05/01 19:09:34 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include "ft_printf/ft_printf.h"
+#include "libft.h"
+
 #include <stddef.h> // NULL
-#include <stdio.h>
-#include "push_swap.h"
 
-void	ft_push_a(t_pslist **a, t_pslist **b)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	if (b != NULL || *b != NULL)
-	{
-		ft_add_to_front(a, ft_newlist((*b)->data, (*b)->posn));
-		ft_del_lst(b);
-	}
-	ft_printf("pa\n");
-}
+	t_list	*b;
 
-void	ft_push_b(t_pslist **a, t_pslist **b)
-{
-	if (a != NULL || *a != NULL)
+	b = NULL;
+	if (*lst == NULL)
+		*lst = new;
+	else
 	{
-		ft_add_to_front(b, ft_newlist((*a)->data, (*a)->posn));
-		ft_del_lst(a);
+		b = ft_lstlast(*lst);
+		b->next = new;
 	}
-	ft_printf("pb\n");
 }

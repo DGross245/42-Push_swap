@@ -1,37 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_push.c                                          :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/09 09:41:11 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/26 19:14:59 by dgross           ###   ########.fr       */
+/*   Created: 2022/03/23 12:17:10 by dgross            #+#    #+#             */
+/*   Updated: 2022/07/27 17:59:52 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
-#include "ft_printf/ft_printf.h"
+#include "libft.h"
+
 #include <stddef.h> // NULL
-#include <stdio.h>
-#include "push_swap.h"
 
-void	ft_push_a(t_pslist **a, t_pslist **b)
+char	*ft_strchr(const char *s, int c)
 {
-	if (b != NULL || *b != NULL)
-	{
-		ft_add_to_front(a, ft_newlist((*b)->data, (*b)->posn));
-		ft_del_lst(b);
-	}
-	ft_printf("pa\n");
-}
+	char	i;
+	int		b;
+	int		j;
 
-void	ft_push_b(t_pslist **a, t_pslist **b)
-{
-	if (a != NULL || *a != NULL)
+	j = 0;
+	i = c;
+	b = ft_strlen(s);
+	while (j <= b)
 	{
-		ft_add_to_front(b, ft_newlist((*a)->data, (*a)->posn));
-		ft_del_lst(a);
+		if (s[j] == i)
+			return ((char *)s + j);
+		j++;
 	}
-	ft_printf("pb\n");
+	return (NULL);
 }

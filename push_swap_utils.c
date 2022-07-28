@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   push_swap_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/06/05 14:05:13 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/21 18:10:44 by dgross           ###   ########.fr       */
+/*   Created: 2022/07/28 14:34:05 by dgross            #+#    #+#             */
+/*   Updated: 2022/07/28 16:12:00 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <stdbool.h>
 
 void	ft_putlist(int argc, char **argv, t_stack *stack)
 {
@@ -54,6 +53,7 @@ void	ft_number_check(int argc, char **argv)
 			j = 0;
 			if (string[i][j] == '-' || string[i][j] == '+')
 				j++;
+			ft_not_null(string[i][j]);
 			while (string[i][j] != '\0')
 			{
 				if (!ft_isdigit(string[i][j++]))
@@ -102,56 +102,4 @@ int	*ft_init_array(t_stack *stack)
 		i++;
 	}
 	return (array);
-}
-
-////----------------------------PRINT---------------------------
-//void	print_list(t_stack *stack)
-//{
-//	int	i;
-//	t_pslist	*tmp;
-//	t_pslist	*tmp2;
-
-//	tmp = stack->a;
-//	tmp2 = stack->b;
-//	i = 0;
-//	ft_printf("INDEX\t\tA\tposn-A\t\tB\tposn-B\n");
-//	while (tmp != NULL)
-//	{
-//		ft_printf("%d\t\t", i);
-//		if (tmp != NULL)
-//		{
-//			ft_printf("%d\t%d\t\t", tmp->data, tmp->posn);
-//			tmp = tmp->next;
-//		}
-//		if (tmp2 != NULL)
-//		{
-//			ft_printf("%d\t%d\t", tmp2->data, tmp2->posn);
-//			tmp2 = tmp2->next;
-//		}
-//		write(1, "\n", 1);
-//		i++;
-//	}
-//	while (tmp2 != NULL)
-//	{
-//		ft_printf("%d \t\t \t \t\t%d\t%d\t\n", i, tmp2->data,
-//			tmp2->posn);
-//		i++;
-//		tmp2 = tmp2->next;
-//	}
-//}
-
-int	main(int argc, char **argv)
-{
-	t_stack	stack;
-
-	stack.a = NULL;
-	stack.b = NULL;
-	if (argc - 1 == 0)
-		exit(0);
-	ft_number_check(argc - 1, argv);
-	ft_putlist(argc - 1, argv, &stack);
-	ft_find_dup(stack.a);
-	ft_sort(&stack);
-	print_list(&stack);
-	return (0);
 }
