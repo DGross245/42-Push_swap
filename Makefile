@@ -5,112 +5,82 @@
 #                                                     +:+ +:+         +:+      #
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/06/05 14:05:10 by dgross            #+#    #+#              #
-#    Updated: 2022/07/28 17:16:20 by dgross           ###   ########.fr        #
+#    Created: 2022/08/15 10:05:18 by dgross            #+#    #+#              #
+#    Updated: 2022/08/20 19:21:39 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = push_swap
+NAME		= push_swap
 
-NAME_BONUS = checker
+NAME_BONUS 	= checker
 
-LIBFT		=	libft/libft.a
+FTPRINTF	= ft_printf/libftprintf.a
 
-FUNCTIONS = quick_sort.c Longest_increasing_subsequence.c ft_push.c ft_rotate.c ft_rev_rotate.c ft_sort_stack.c ft_swap.c helper_functions.c list_function_utils.c list_functions.c ft_sort_small.c ft_push_back.c ft_push_back_utils.c push_swap_utils.c
-OBJFILES = $(FUNCTIONS:.c=.o)
+MAIN		= src/main.c
 
-BFUNCTIONS = checker_bonus/ft_check_op1.c checker_bonus/ft_check_op2.c checker_bonus/ft_check_op3.c checker_bonus/ft_checker.c \
-			quick_sort.c Longest_increasing_subsequence.c ft_push.c ft_rotate.c ft_rev_rotate.c ft_sort_stack.c ft_swap.c helper_functions.c list_function_utils.c list_functions.c ft_sort_small.c ft_push_back.c ft_push_back_utils.c push_swap_utils.c
-BOBJFILES = $(BFUNCTIONS:.c=.o)
+SRC			= ft_push_back_utils.c ft_push_back.c op_push.c op_rev_rotate.c op_rotate.c op_swap.c  ft_sort_small.c ft_sort_stack.c \
+				ft_lis.c ft_list_function_utils.c ft_list_functions.c ft_push_swap_utils.c ft_quick_sort.c ft_helper_functions.c ft_error.c
 
-PRINTFSRC = ft_printf/*.c ft_printf/libft/*.c
-PRINTFOBJ = $(PRINTFSRC:.c=.o)
+OBJ			= $(addprefix $(OBJ_DIR),$(SRC:.c=.o))
 
-GNL_SRC = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
-GNL_OBJ = $(GNL_SRC:.c=.o)
+BONUS_SRC	= ft_checker.c ft_check_op1.c ft_check_op2.c ft_check_op3.c
+BONUS_OBJ	= $(addprefix $(B_OBJ_DIR),$(BONUS_SRC:.c=.o)) 
 
-CC = cc
+OBJ_DIR		= ./obj/
+B_OBJ_DIR	= ./b_obj/
 
-MAIN = push_swap.c
+CC			= cc
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror #-Wno-gnu-include-next -ILeakSanitizer/include
+
+INCLUDES = -Iincludes -Ift_printf -Ift_printf/libft
+LDINCLUDES	= -L./ft_printf -lftprintf #-LLeakSanitizer -llsan -lc++
 
 all: $(NAME)
 
 bonus: $(NAME_BONUS)
 
-%.o:%.c
-	$(CC) $(CFLAGS) -Iincludes -c $< -o $@
+obj:
+	@mkdir -p $(OBJ_DIR)
 
-$(NAME): $(OBJFILES) $(PRINTFSRC) $(MAIN) 
-	@make -C ./ft_printf --silent
-	@make -C ./libft --silent
-	@echo Hi
-	@$(CC) $(CFLAGS) -Iincludes $(OBJFILES) $(MAIN) $(PRINTFOBJ) -o $(NAME)
+b_obj:
+	@mkdir -p $(B_OBJ_DIR)
 
-$(NAME_BONUS): $(OBJFILES) $(BOBJFILES) $(GNL_OBJ) $(PRINTFSRC)
-	@make -C ./ft_printf --silent
-	@make -C ./libft --silent
-	@$(CC) $(CFLAGS) -Iincludes $(BOBJFILES) $(GNL_OBJ) $(PRINTFOBJ) -o $(NAME_BONUS)
+$(FTPRINTF):
+	@$(MAKE) -C ./ft_printf
 
+obj/%.o: src/%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+b_obj/%.o: checker_bonus/%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(NAME): $(FTPRINTF) obj $(OBJ)
+	@echo "\033[33mCompiling PUSH_SWAP..."
+	@$(CC) $(CFLAGS) $(INCLUDES) $(LDINCLUDES) $(OBJ) $(MAIN) -o $(NAME)
+	@echo "\033[32m{˜-_-˜-_-˜PUSH_SWAP Compiled!˜-_-˜-_-˜}"
+
+$(NAME_BONUS): $(FTPRINTF) b_obj $(NAME) $(BONUS_OBJ)
+	@echo "\033[33mCompiling Checker..."
+	@$(CC) $(CFLAGS) $(INCLUDES) $(LDINCLUDES) $(OBJ) $(BONUS_OBJ) -o $(NAME_BONUS)
+	@echo "\033[0;30m./././././\033[0;33m✰\033[0;31mChecker Compiled\033[0;33m✰\033[0;30m\.\.\.\.\.\."
+
+
+	
 clean:
+	@echo "\033[0;36m--------Cleaning....-----------"
 	@make clean -C ft_printf/
-	@make clean -C libft/
-	@rm -rf ./*.o get_next_line/*.o checker_bonus/*.o
+	@rm -rf obj
+	@rm -rf b_obj
+	@echo "\033[0;36m--------clean is done-----------"
 
 fclean: clean
-	@make fclean -C ft_printf/
-	@make fclean -C libft/
+	@echo "\033[0;34m-->-->--Cleaning....--<--<-----"
 	@rm -rf $(NAME)
+	@rm -rf $(NAME_BONUS)
+	@make fclean -C ft_printf/
+	@echo "\033[0;34m-->-->--fclean is done--<--<---"
 
 re: fclean all
 
-
-#NAME 		= push_swap
-#NAME_BONUS = checker
-
-#SOURCES 	= $(shell find . -name "*.c")
-#BNSOURCES 	= $(shell find . -name "*_bonus.c")
-
-
-#HEADERS 	= $(shell find . -name "*.h")
-
-
-#OBJECTS 	= $(patsubst %.c, %.o, $(SOURCES))
-#BNOBJECTS 	= $(patsubst %.c, %.o, $(BNSOURCES))
-
-#DEPENDS 	= $(patsubst %.c, %.d, $(SOURCES))
-#BNDEPENDS 	= $(patsubst %.c, %.d, $(BNSOURCES))
-
-
-#CFLAGS = -g -Wall
-
-#all: $(NAME)
-
-#bonus: $(NAME_BONUS)
-
-#%.o: %.c
-#	@$(CC) -Iincludes $(CFLAGS) -MMD -MP -c $< -o $@
-
-#$(NAME): $(OBJECTS)
-#	@echo "Dependencies Compiled !"
-#	@$(CC) -Iincludes $(OBJECTS) -o $(NAME)
-#	@echo "Compiled !"
-
-#$(NAME_BONUS): $(BNOBJECTS)
-#	@echo "BONUS Compiling !"
-#	@$(CC) -Iincludes $(OBJECTS) -o $(NAME_BONUS)
-#	@echo "Compiled !"
-
-#clean:
-#	-@$(RM) $(OBJECTS) $(BNOBJECTS) $(DEPENDS)
-#	@echo "Everything is Cleaned !"
-
-#fclean: clean
-#	-@$(RM) $(NAME) $(NAME_BONUS)
-
-#re: clean all
-
-#.PHONY: re run fclean clean all
-
-#-include $(DEPENDS)
+.PHONY: all clean fclean re bonus

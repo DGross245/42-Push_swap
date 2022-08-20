@@ -6,15 +6,15 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/05 14:05:17 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/28 16:29:06 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/20 17:30:40 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
+
 # include "../ft_printf/ft_printf.h"
-# include "../libft/libft.h"
-# include <stddef.h>
+# include "../ft_printf/libft/libft.h"
 
 typedef struct s_pslist
 {
@@ -36,18 +36,19 @@ typedef struct s_stack
 
 //------------------------{[HELPER_FUNCTIONS]}----------------------
 
-int			ft_atoi_check(const char	*str);
-void		ft_not_null(char string);
+int			atoi_check(char	*str, t_stack *stack, char **string);
+void		ft_not_null(int i, char **string, int j);
 int			ft_split_len(char **str);
-int			ft_error(int i);
+void		ft_error(int i);
 void		ft_maxintcheck(t_stack	*stack);
 
 //-------------------------{[LIST_FUNCTIONS]}---------------------
 int			ft_listsize(t_pslist *lst);
 void		ft_del_lst(t_pslist **lst);
-void		ft_add_to_front(t_pslist **lst, t_pslist *new_lst);
+void		ft_del_all(t_pslist **lst);
+void		ft_add_front(t_pslist **lst, t_pslist *new_lst);
 void		ft_add_to_back(t_pslist **lst, t_pslist *new_lst);
-void		ft_putlist(int argc, char **argv, t_stack *stack);
+void		ft_putlist(int argc, char **argv, t_stack *s);
 t_pslist	*ft_newlist(int number, int position);
 t_pslist	*ft_lastnode(t_pslist *lst);
 void		ft_list_rem(t_pslist **lst, int i);
@@ -74,7 +75,6 @@ void		ft_swap_both(t_pslist **a, t_pslist **b);
 void		ft_put_posn(int *array, t_stack *stack, int size);
 int			ft_position(int *array, int num, int size);
 int			ft_pre_sort(int *array, int n, t_stack *stack);
-int			ft_partition(int *array, int low, int high);
 void		ft_swap(int *a, int *b);
 void		my_sort(t_stack	*stack);
 void		ft_sort(t_stack *stack);
@@ -85,6 +85,7 @@ void		sort_three(t_stack *stack);
 
 void		ft_quicksort(int *array, int low, int high);
 void		ft_push_unsorted(t_stack *stack);
+int			ft_division(int *array, int low, int high);
 
 //-----LIS-------
 
@@ -100,9 +101,9 @@ void		*ft_int_memcpy(void *dst, const void *src, size_t n);
 
 int			ft_move_a(int a, int b, t_stack	*stack);
 int			ft_max_nbr(int a, int b);
-int			*ft_intcpy(int	*arr, int size);
+int			*ft_intclone(int *arr, int size, t_stack *stack);
 int			ft_best_comb_helper(int *arr_a, int *arr_b, int *tmp, int size);
-int			ft_best_comb(int *arr_a, int *arr_b, int size);
+int			ft_best_comb(int *arr_a, int *arr_b, int size, t_stack *stack);
 int			ft_max_or_min(t_pslist *a, int b_data, int size);
 int			return_max_or_min(int b_data, int *max_or_min, int size);
 int			ft_a_distance(t_pslist *a, int b_data, int size);
@@ -115,8 +116,8 @@ void		ft_finish(t_stack	*stack, int size);
 
 int			*ft_init_array(t_stack *stack);
 void		ft_number_check(int argc, char **argv);
-void		ft_find_dup(t_pslist *lst);
-int			ft_isnumber(const char *str, int i, int sign, long int result1);
+void		ft_find_dup(t_stack *stack);
+long long	ft_isnumber(const char *str, int i, int sign, long int result1);
 int			ft_issorted(t_stack *stack);
 
 void		ft_1rev_rotate_a(t_pslist **lst);
@@ -126,6 +127,10 @@ void		ft_1rotate_a(t_pslist **list);
 void		ft_1swap_a(t_pslist **lst);
 void		ft_1swap_b(t_pslist **lst);
 
+void		free_error(int i, t_stack *stack);
+void		ft_free_str(char **str, int i);
 void		print_list(t_stack *stack);
+void		ft_error_str(int i, char **str);
+void		ft_free_str_and_error(int i, t_stack *stack, char **str);
 
 #endif

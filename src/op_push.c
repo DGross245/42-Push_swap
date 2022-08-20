@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstring.c                                     :+:      :+:    :+:   */
+/*   op_push.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/15 15:07:53 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/15 19:44:04 by dgross           ###   ########.fr       */
+/*   Created: 2022/06/09 09:41:11 by dgross            #+#    #+#             */
+/*   Updated: 2022/08/20 12:41:47 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h" // ft_putchar_fd
+#include "push_swap.h"
+#include "ft_printf.h"
+#include <stddef.h> // NULL
 
-#include <stddef.h> // size_t NULL
-
-// prints out every char in the string.
-// If the string is empty, a (null) is printed and returned.
-void	ft_putstring(char *s)
+void	ft_push_a(t_pslist **a, t_pslist **b)
 {
-	size_t	i;
+	if (b != NULL && *b != NULL)
+	{
+		ft_add_front(a, ft_newlist((*b)->data, (*b)->posn));
+		ft_del_lst(b);
+	}
+	ft_printf("pa\n");
+}
 
-	i = 0;
-	if (s == NULL)
+void	ft_push_b(t_pslist **a, t_pslist **b)
+{
+	if (a != NULL && *a != NULL)
 	{
-		ft_putstring("(null)");
-		return ;
+		ft_add_front(b, ft_newlist((*a)->data, (*a)->posn));
+		ft_del_lst(a);
 	}
-	while (s[i])
-	{
-		ft_putchar_fd(s[i], 1);
-		i++;
-	}
+	ft_printf("pb\n");
 }

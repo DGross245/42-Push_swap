@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_check_op1.c                                     :+:      :+:    :+:   */
+/*   op_rotate.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/27 15:33:43 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 12:41:37 by dgross           ###   ########.fr       */
+/*   Created: 2022/06/16 13:11:11 by dgross            #+#    #+#             */
+/*   Updated: 2022/08/19 15:42:20 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "checker.h"
 #include "push_swap.h"
 #include <stddef.h> // NULL
 
-void	ft_ra(t_pslist	**a)
+void	ft_rotate_a(t_pslist **a)
 {
 	t_pslist	*tmp;
 
+	ft_printf("ra\n");
 	if (a != NULL && *a != NULL && (*a)->next != NULL)
 	{
 		tmp = *a;
@@ -26,10 +26,11 @@ void	ft_ra(t_pslist	**a)
 	}
 }
 
-void	ft_rb(t_pslist	**b)
+void	ft_rotate_b(t_pslist **b)
 {
 	t_pslist	*tmp;
 
+	ft_printf("rb\n");
 	if (b != NULL && *b != NULL && (*b)->next != NULL)
 	{
 		tmp = *b;
@@ -38,26 +39,33 @@ void	ft_rb(t_pslist	**b)
 	}
 }
 
-void	ft_rr(t_stack	*stack)
+void	rotate_both(t_pslist **a, t_pslist **b)
 {
-	ft_ra(&stack->a);
-	ft_rb(&stack->b);
+	ft_printf("rr\n");
+	ft_1rotate_a(a);
+	ft_1rotate_b(b);
 }
 
-void	ft_pa(t_pslist **a, t_pslist **b)
+void	ft_1rotate_a(t_pslist **list)
 {
-	if (b != NULL && *b != NULL)
+	t_pslist	*tmp;
+
+	if (list != NULL && *list != NULL && (*list)->next != NULL)
 	{
-		ft_add_front(a, ft_newlist((*b)->data, (*b)->posn));
-		ft_del_lst(b);
+		tmp = *list;
+		ft_add_to_back(list, ft_newlist(tmp->data, tmp->posn));
+		ft_list_rem(list, 1);
 	}
 }
 
-void	ft_pb(t_pslist **a, t_pslist **b)
+void	ft_1rotate_b(t_pslist **list)
 {
-	if (a != NULL && *a != NULL)
+	t_pslist	*tmp;
+
+	if (list != NULL && *list != NULL && (*list)->next != NULL)
 	{
-		ft_add_front(b, ft_newlist((*a)->data, (*a)->posn));
-		ft_del_lst(a);
+		tmp = *list;
+		ft_add_to_back(list, ft_newlist(tmp->data, tmp->posn));
+		ft_list_rem(list, 1);
 	}
 }

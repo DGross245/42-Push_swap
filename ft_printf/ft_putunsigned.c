@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 12:03:01 by dgross            #+#    #+#             */
-/*   Updated: 2022/05/18 12:49:15 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/17 19:38:20 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static int	ft_nbrlen(unsigned int digit)
 	int	i;
 
 	i = 0;
-	if (digit < 0)
-		i++;
 	if (digit == 0)
 		return (i + 1);
 	while (digit != 0)

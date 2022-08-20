@@ -6,16 +6,16 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 16:05:35 by dgross            #+#    #+#             */
-/*   Updated: 2022/07/28 17:02:57 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/20 13:46:16 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
-#include "../get_next_line/get_next_line.h"
-#include "../libft/libft.h"
+#include "get_next_line.h"
+#include "libft.h"
 #include "checker.h"
-#include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h> // NULL
+#include <stdlib.h> // exit
 
 int	main(int argc, char **argv)
 {
@@ -29,17 +29,18 @@ int	main(int argc, char **argv)
 		exit(0);
 	ft_number_check(argc - 1, argv);
 	ft_putlist(argc - 1, argv, &stack);
-	ft_find_dup(stack.a);
+	ft_find_dup(&stack);
 	while (str != NULL && ft_strncmp(str, "\n", 1))
 	{
-		str = get_next_line(0);
-		if (str != NULL)
-			ft_check_line(str, &stack);
+		str = get_next_line(0, &stack);
+		if (str)
+			free(str);
 	}
 	if (ft_issorted(&stack) && stack.b == NULL)
 		ft_printf("OK\n");
 	else
 		ft_printf("KO\n");
+	ft_free_list(&stack);
 	return (0);
 }
 
@@ -59,7 +60,7 @@ int	ft_strcmp1(char *s1, char *s2)
 	return (1);
 }
 
-void	ft_check_line(char	*str, t_stack *stack)
+void	ft_check_line(char	*str, char	*string, t_stack *stack)
 {
 	if (ft_strcmp1(str, "pa\n"))
 		ft_pa(&stack->a, &stack->b);
@@ -84,5 +85,30 @@ void	ft_check_line(char	*str, t_stack *stack)
 	else if (ft_strcmp1(str, "ss\n"))
 		ft_ss(stack);
 	else
-		ft_error(0);
+		ft_no_match(str, string, stack);
+}
+
+void	ft_free_list(t_stack *stack)
+{
+	t_pslist	*tmp;
+
+	while (stack->a != NULL)
+	{
+		tmp = stack->a;
+		stack->a = stack->a->next;
+		free(tmp);
+	}
+	while (stack->b != NULL)
+	{
+		tmp = stack->b;
+		stack->b = stack->b->next;
+		free(tmp);
+	}
+}
+
+void	ft_no_match(char *str, char *string, t_stack *stack)
+{
+	free(string);
+	free(str);
+	free_error(0, stack);
 }
