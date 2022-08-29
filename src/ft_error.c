@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 10:54:47 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 17:33:22 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:26:07 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <stdlib.h> // free
 #include <unistd.h> // write
 #include <stddef.h> // NULL
-#include <stdio.h> // NULL
 
 void	free_error(int i, t_stack *stack)
 {

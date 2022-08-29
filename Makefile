@@ -6,7 +6,7 @@
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/15 10:05:18 by dgross            #+#    #+#              #
-#    Updated: 2022/08/20 19:21:39 by dgross           ###   ########.fr        #
+#    Updated: 2022/08/22 14:54:07 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,10 @@ B_OBJ_DIR	= ./b_obj/
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror #-Wno-gnu-include-next -ILeakSanitizer/include
+CFLAGS		= -Wall -Wextra -Werror
 
 INCLUDES = -Iincludes -Ift_printf -Ift_printf/libft
-LDINCLUDES	= -L./ft_printf -lftprintf #-LLeakSanitizer -llsan -lc++
+LDINCLUDES	= -L./ft_printf -lftprintf
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 14:34:05 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 17:25:17 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:27:02 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include "libft.h"
 #include <stdlib.h> // free malloc
 #include <stddef.h> // NULL
-#include <stdio.h> // NULL
 
 void	ft_putlist(int argc, char **argv, t_stack *s)
 {

@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:53:29 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 17:28:04 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:26:26 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <unistd.h> // write 
 #include <stddef.h> // NULL
 #include <limits.h> // NULL
-#include <stdio.h> // NULL
 
 int	ft_split_len(char **str)
 {

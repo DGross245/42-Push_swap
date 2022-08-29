@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/19 12:58:05 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 10:55:43 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:26:43 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "libft.h"
 #include <stdlib.h> // free malloc 
 #include <stddef.h> // NULL
-#include <unistd.h> // write
 
 void	ft_del_lst(t_pslist **lst)
 {

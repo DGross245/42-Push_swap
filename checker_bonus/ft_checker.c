@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 16:05:35 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 13:46:16 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:51:03 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv)
 	if (argc - 1 == 0)
 		exit(0);
 	ft_number_check(argc - 1, argv);
-	ft_putlist(argc - 1, argv, &stack);
+	ft_putlist_b(argc - 1, argv, &stack);
 	ft_find_dup(&stack);
 	while (str != NULL && ft_strncmp(str, "\n", 1))
 	{

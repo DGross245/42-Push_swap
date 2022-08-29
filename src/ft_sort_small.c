@@ -6,14 +6,13 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/21 13:25:41 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 10:55:59 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:27:18 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 #include <stdlib.h> // malloc 
 #include <stddef.h> // NULL
-#include <unistd.h> // write
 
 void	sort_small(t_stack *stack)
 {

@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 12:10:10 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/20 12:37:28 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:49:57 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ void		ft_rrb(t_pslist	**b);
 void		ft_rrr(t_stack	*stack);
 void		ft_free_list(t_stack *stack);
 void		ft_no_match(char *str, char *string, t_stack *stack);
+void		ft_putlist_b(int argc, char **argv, t_stack *s);
 
 #endif

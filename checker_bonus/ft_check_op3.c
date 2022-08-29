@@ -6,13 +6,14 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 15:33:37 by dgross            #+#    #+#             */
-/*   Updated: 2022/08/19 20:09:28 by dgross           ###   ########.fr       */
+/*   Updated: 2022/08/22 14:50:27 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "checker.h"
 #include "push_swap.h"
 #include <stddef.h> // NULL
+#include <stdlib.h> // free
 
 void	ft_sa(t_pslist	**a)
 {
@@ -58,4 +59,23 @@ void	ft_ss(t_stack	*stack)
 {
 	ft_sa(&stack->a);
 	ft_sb(&stack->b);
+}
+
+void	ft_putlist_b(int argc, char **argv, t_stack *s)
+{
+	int		i;
+	char	**str;
+
+	i = 0;
+	while (argc > 0)
+	{
+		str = ft_split(argv[argc], ' ');
+		i = ft_split_len(str);
+		while (i > -1)
+			ft_add_front(&s->a, ft_newlist(atoi_check(str[i--], s, str), 0));
+		while (str[++i] != NULL)
+			free(str[i]);
+		free(str);
+		argc--;
+	}
 }
